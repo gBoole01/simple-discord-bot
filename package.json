@@ -2,12 +2,12 @@
   "name": "simple-discord-bot",
   "version": "1.0.0",
   "author": "gBoole01",
-  "main": "index.js",
+  "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "lint": "eslint index.js"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "eslint src/index.js"
   },
   "dependencies": {
     "discord.js": "^14.7.1",
