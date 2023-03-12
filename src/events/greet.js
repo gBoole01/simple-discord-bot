@@ -8,14 +8,14 @@ function sendGreeting(client) {
   const channel = client.channels.cache.get(GREETING_CHANNEL_ID);
   if (!channel) return console.error("Channel not found!");
 
-  channel.send("Good morning everyone! Wishing you a happy day of coding!");
+  channel.send("Good morning everyone! 👋 Wishing you a happy day of coding!");
 }
 
 module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
-    console.log(`Ready! Logged in as ${client.user.tag}`);
+    console.log(`👋 Greeting event registered !`);
     const hour = 8;
     const minute = 0;
     const second = 0;
@@ -29,7 +29,7 @@ module.exports = {
     }
 
     const timeUntilTarget = targetTime.getTime() - currentTime.getTime();
-    console.log(`Time until target: ${timeUntilTarget / 1000} seconds`);
+    console.log(`⏱️  Next greet in ${timeUntilTarget / 1000} seconds...`);
     setTimeout(() => {
       sendGreeting(client);
       setInterval(sendGreeting, 86400000); // 24 hours interval
