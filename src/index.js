@@ -44,5 +44,4 @@ for (const file of commandFiles) {
 }
 
 const { DISCORD_TOKEN } = process.env;
-console.log(DISCORD_TOKEN);
 client.login(DISCORD_TOKEN);
