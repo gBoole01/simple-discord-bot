@@ -6,6 +6,6 @@ This is my first discord bot, just exploring what we can do with the discord.js 
 
 1. clone this repository to get started
 1. run `yarn install` to install package and dependencies
-1. copy `.env.example` file and rename it `.env`, insert your token, your application client id and your server id.
+1. copy `.env.example` file and rename it `.env`. Insert your own variables.
 1. once finished, run `yarn dev` to launch nodemon or `yarn start` to run the code.
 1. To deploy commands on the server, run `yarn deploy`.
