@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Client, Collection, GatewayIntentBits, Events } = require("discord.js");
+const { Client, Collection, GatewayIntentBits } = require("discord.js");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -44,4 +44,5 @@ for (const file of commandFiles) {
 }
 
 const { DISCORD_TOKEN } = process.env;
+console.log(DISCORD_TOKEN);
 client.login(DISCORD_TOKEN);
