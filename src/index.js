@@ -53,5 +53,5 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-const { DISCORD_TOKEN } = process.en;
+const { DISCORD_TOKEN } = process.env;
 client.login(DISCORD_TOKEN);
