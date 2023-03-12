@@ -29,7 +29,7 @@ module.exports = {
     }
 
     const timeUntilTarget = targetTime.getTime() - currentTime.getTime();
-    console.log(`⏱️  Next greet in ${timeUntilTarget / 1000} seconds...`);
+    console.log(`⏱️ Next greet in ${timeUntilTarget / 1000} seconds...`);
     setTimeout(() => {
       sendGreeting(client);
       setInterval(sendGreeting, 86400000); // 24 hours interval
