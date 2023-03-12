@@ -6,10 +6,27 @@ dotenv.config();
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-client.once(Events.ClientReady, (c) => {
-  console.log(`Logged in as ${c.user.tag}!`);
-});
+/**
+ * Events
+ */
+const eventsPath = path.join(__dirname, "events");
+const eventFiles = fs
+  .readdirSync(eventsPath)
+  .filter((file) => file.endsWith(".js"));
 
+for (const files of eventFiles) {
+  const filePath = path.join(eventsPath, files);
+  const event = require(filePath);
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args));
+  } else {
+    client.on(event.name, (...args) => event.execute(...args));
+  }
+}
+
+/**
+ * Commands
+ */
 client.commands = new Collection();
 
 const commandsPath = path.join(__dirname, "commands");
@@ -25,33 +42,6 @@ for (const file of commandFiles) {
     console.error(`Failed to load command ${file}`);
   }
 }
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return;
-  const command = interaction.client.commands.get(interaction.commandName);
-
-  if (!command) {
-    console.error("Command not found");
-    return;
-  }
-
-  try {
-    await command.execute(interaction);
-  } catch (e) {
-    console.error(e);
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
-    } else {
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      });
-    }
-  }
-});
 
 const { DISCORD_TOKEN } = process.env;
 client.login(DISCORD_TOKEN);
