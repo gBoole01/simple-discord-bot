@@ -8,7 +8,9 @@ function sendGreeting(client) {
   const channel = client.channels.cache.get(GREETING_CHANNEL_ID);
   if (!channel) return console.error("Channel not found!");
 
-  channel.send("Good morning everyone! 👋 Wishing you a happy day of coding!");
+  channel.send(
+    "Bonjour Tout le Monde ! 👋 Je vous souhaite une bonne journée et un bon code !"
+  );
 }
 
 module.exports = {
