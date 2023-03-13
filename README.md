@@ -1,6 +1,6 @@
 # Simple Discord Bot
 
-This is my first discord bot, just exploring what we can do with the discord.js library !
+This is a simple discord bot, just exploring what we can do with the discord.js library !
 
 ## Usage
 
@@ -18,4 +18,5 @@ So far, this bot can:
 1. Give information about the server.
 1. Ping back!
 1. Greet everyone every morning.
-1. Retrieve 5 last commits every hour.
+1. Retrieve 5 last commits every morning.
+1. A webhook can be integrated in the repository setting to log any update on Discord.s
