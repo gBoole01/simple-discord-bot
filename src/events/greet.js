@@ -16,7 +16,7 @@ module.exports = {
   once: true,
   execute(client) {
     console.log(`👋 Greeting event registered !`);
-    const hour = 8;
+    const hour = 7;
     const minute = 0;
     const second = 0;
 
