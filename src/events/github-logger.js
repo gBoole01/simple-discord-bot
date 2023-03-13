@@ -20,41 +20,65 @@ async function getLatestCommits() {
   return data;
 }
 
+function createMessage(commits) {
+  if (commits.length === 0) return;
+
+  const embed = new EmbedBuilder()
+    .setColor("#0000ff")
+    .setTitle("Latest commits on GitHub repository")
+    .setURL(
+      `https://github.com/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}`
+    )
+    .setDescription(
+      commits
+        .map((commit) => {
+          const commitUrl = commit.html_url;
+          const commitAuthor = commit.commit.author.name;
+          const commitMessage = commit.commit.message;
+          return `➡️ **${commitAuthor}** - ${commitMessage} (<${commitUrl}>)\n\n`;
+        })
+        .join("")
+    );
+
+  return embed;
+}
+
+function log(client) {
+  const channel = client.channels.cache.get(GITHUB_LOGGER_CHANNEL_ID);
+  if (!channel) return console.error("Channel not found!");
+
+  getLatestCommits()
+    .then((commits) => {
+      const message = createMessage(commits);
+      channel.send({ embeds: [message] });
+    })
+    .catch((err) => console.error(err));
+}
+
 module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
     console.log(`😺📰 Github Logger registered!`);
-    setInterval(() => {
-      getLatestCommits()
-        .then((commits) => {
-          if (commits.length > 0) {
-            const channel = client.channels.cache.get(GITHUB_LOGGER_CHANNEL_ID);
-            if (channel) {
-              const embed = new EmbedBuilder()
-                .setColor("#0000ff")
-                .setTitle("Latest commits on GitHub repository")
-                .setURL(
-                  `https://github.com/${GITHUB_REPOSITORY_OWNER}/${GITHUB_REPOSITORY_NAME}`
-                )
-                .setDescription(
-                  commits
-                    .map((commit) => {
-                      const commitUrl = commit.html_url;
-                      const commitAuthor = commit.commit.author.name;
-                      const commitMessage = commit.commit.message;
-                      return `➡️ **${commitAuthor}** - ${commitMessage} (<${commitUrl}>)\n\n`;
-                    })
-                    .join("")
-                );
+    const hour = 7;
+    const minute = 0;
+    const second = 0;
 
-              channel.send({ embeds: [embed] });
-            }
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 24 * 60 * 60 * 1000);
+    const currentTime = new Date();
+    let targetTime = new Date();
+    targetTime.setHours(hour, minute, second, 0);
+
+    if (currentTime.getTime() > targetTime.getTime()) {
+      targetTime.setDate(targetTime.getDate() + 1);
+    }
+
+    const timeUntilTarget = targetTime.getTime() - currentTime.getTime();
+    console.log(
+      `⏱Next github log entry in ${timeUntilTarget / 1000} seconds...`
+    );
+    setTimeout(() => {
+      log(client);
+      setInterval(log, 24 * 60 * 60 * 1000); // 24 hours interval
+    }, timeUntilTarget);
   },
 };
