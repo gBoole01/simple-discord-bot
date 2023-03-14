@@ -107,8 +107,6 @@ module.exports = {
       targetTime.setDate(targetTime.getDate() + 1);
     }
 
-    sendWeatherReport(client);
-
     const timeUntilTarget = targetTime.getTime() - currentTime.getTime();
     console.log(
       `⏱️Next weather report in ${timeUntilTarget / 1000} seconds...`
