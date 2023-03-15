@@ -115,7 +115,6 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
-    sendWeatherReport(client);
     console.log(`⛅ Weather report event registered !`);
     const hour = 16;
     const minute = 0;
