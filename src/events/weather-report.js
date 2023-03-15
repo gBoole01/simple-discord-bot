@@ -46,7 +46,9 @@ async function sendWeatherReport(client) {
 
   const { daily } = weatherData;
   const nextDayReport = {
-    icon: WEATHER_CODE_MAP.get(daily.weathercode[1]),
+    code: WEATHER_CODE_MAP.get(daily.weathercode[1]),
+    icon: "",
+    description: "",
     date: DAY_FORMATTER.format(new Date(daily.time[1])),
     tempMin: daily.apparent_temperature_min[1],
     tempMax: daily.apparent_temperature_max[1],
@@ -58,31 +60,44 @@ async function sendWeatherReport(client) {
     snowfallSum: daily.snowfall_sum[1],
   };
 
-  switch (nextDayReport.icon) {
+  switch (nextDayReport.code) {
     case "sun":
       nextDayReport.icon = "☀️";
+      nextDayReport.description = "ensoleillé";
       break;
     case "cloud-sun":
       nextDayReport.icon = "⛅";
+      nextDayReport.description = "nuageux";
       break;
     case "cloud":
       nextDayReport.icon = "☁️";
+      nextDayReport.description = "couvert";
       break;
     case "cloud-showers-heavy":
       nextDayReport.icon = "🌧️";
+      nextDayReport.description = "pluvieux";
       break;
     case "snowflake":
       nextDayReport.icon = "❄️";
+      nextDayReport.description = "neigeux";
       break;
     case "cloud-bolt":
       nextDayReport.icon = "🌩️";
+      nextDayReport.description = "orageux";
       break;
     default:
       nextDayReport.icon = "🌡️";
+      nextDayReport.description = "no code";
       break;
   }
 
-  let message = `📅 Demain nous serons le ${nextDayReport.date}.\n🌡️ La température minimale sera de ${nextDayReport.tempMin}°C, la maximale sera de ${nextDayReport.tempMax}°C. \n☀️ Le soleil se levera à ${nextDayReport.sunrise} et se couchera à ${nextDayReport.sunset}.\n❓ La probabilité de précipitation sera de ${nextDayReport.precipProbability}%.\n`;
+  let message = `📅 Demain nous serons le ${nextDayReport.date}. Le temps sera ${nextDayReport.description}.\n🌡️ La température minimale sera de ${nextDayReport.tempMin}°C, la maximale sera de ${nextDayReport.tempMax}°C. \n☀️ Le soleil se levera à ${nextDayReport.sunrise} et se couchera à ${nextDayReport.sunset}.\n`;
+
+  if (nextDayReport.precipProbability > 0) {
+    message += `❓ La probabilité de précipitation sera de ${nextDayReport.precipProbability}%.\n`;
+  } else {
+    message += `❗ Pas de pluie à prévoir !\n`;
+  }
 
   if (nextDayReport.precipProbability > 33) {
     if (nextDayReport.snowfallSum == 0) {
@@ -100,6 +115,7 @@ module.exports = {
   name: Events.ClientReady,
   once: true,
   execute(client) {
+    sendWeatherReport(client);
     console.log(`⛅ Weather report event registered !`);
     const hour = 16;
     const minute = 0;

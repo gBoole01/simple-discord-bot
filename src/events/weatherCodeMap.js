@@ -18,5 +18,5 @@ function addMapping(values, icon) {
 }
 
 module.exports = {
-  ICON_MAP: WEATHER_CODE_MAP,
+  WEATHER_CODE_MAP,
 };
