@@ -11,7 +11,10 @@ const DAY_FORMATTER = new Intl.DateTimeFormat("fr-FR", {
   month: "long",
   day: "numeric",
 });
-const HOUR_FORMATTER = new Intl.DateTimeFormat("fr-FR", { hour: "numeric" });
+const HOUR_FORMATTER = new Intl.DateTimeFormat("fr-FR", {
+  hour: "numeric",
+  minute: "numeric",
+});
 
 async function getWeatherData() {
   const url =
