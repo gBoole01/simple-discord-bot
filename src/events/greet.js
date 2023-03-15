@@ -5,6 +5,9 @@ dotenv.config();
 const { GREETING_CHANNEL_ID } = process.env;
 
 function sendGreeting(client) {
+  const now = new Date();
+  if (now.getDay() === 6 || now.getDay() === 0) return;
+
   const channel = client.channels.cache.get(GREETING_CHANNEL_ID);
   if (!channel) return console.error("Channel not found!");
 
@@ -27,6 +30,10 @@ module.exports = {
     targetTime.setHours(hour, minute, second, 0);
 
     if (currentTime.getTime() > targetTime.getTime()) {
+      targetTime.setDate(targetTime.getDate() + 1);
+    }
+
+    while (targetTime.getDay() === 6 || targetTime.getDay() === 0) {
       targetTime.setDate(targetTime.getDate() + 1);
     }
 

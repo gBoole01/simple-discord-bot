@@ -1,4 +1,4 @@
-const ICON_MAP = new Map();
+const WEATHER_CODE_MAP = new Map();
 
 addMapping([0, 1], "sun");
 addMapping([2], "cloud-sun");
@@ -13,10 +13,10 @@ addMapping([95, 96, 99], "cloud-bolt");
 
 function addMapping(values, icon) {
   values.forEach((value) => {
-    ICON_MAP.set(value, icon);
+    WEATHER_CODE_MAP.set(value, icon);
   });
 }
 
 module.exports = {
-  ICON_MAP,
+  ICON_MAP: WEATHER_CODE_MAP,
 };

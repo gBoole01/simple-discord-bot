@@ -1,7 +1,7 @@
 const { Events } = require("discord.js");
 const fetch = require("node-fetch");
 const dotenv = require("dotenv");
-const { ICON_MAP } = require("./iconMap");
+const { WEATHER_CODE_MAP } = require("./weatherCodeMap");
 dotenv.config();
 
 const { GREETING_CHANNEL_ID } = process.env;
@@ -31,6 +31,9 @@ async function getWeatherData() {
 }
 
 async function sendWeatherReport(client) {
+  const now = new Date();
+  if (now.getDay() === 6 || now.getDay() === 0) return;
+
   const channel = client.channels.cache.get(GREETING_CHANNEL_ID);
   if (!channel) return console.error("Channel not found!");
 
@@ -43,7 +46,7 @@ async function sendWeatherReport(client) {
 
   const { daily } = weatherData;
   const nextDayReport = {
-    icon: ICON_MAP.get(daily.weathercode[1]),
+    icon: WEATHER_CODE_MAP.get(daily.weathercode[1]),
     date: DAY_FORMATTER.format(new Date(daily.time[1])),
     tempMin: daily.apparent_temperature_min[1],
     tempMax: daily.apparent_temperature_max[1],
@@ -107,6 +110,10 @@ module.exports = {
     targetTime.setHours(hour, minute, second, 0);
 
     if (currentTime.getTime() > targetTime.getTime()) {
+      targetTime.setDate(targetTime.getDate() + 1);
+    }
+
+    while (targetTime.getDay() === 6 || targetTime.getDay() === 0) {
       targetTime.setDate(targetTime.getDate() + 1);
     }
 
