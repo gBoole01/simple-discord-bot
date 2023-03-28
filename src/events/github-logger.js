@@ -63,7 +63,7 @@ module.exports = {
   once: true,
   execute(client) {
     console.log(`😺📰 Github Logger registered!`);
-    const hour = 7;
+    const hour = 6;
     const minute = 0;
     const second = 0;
 

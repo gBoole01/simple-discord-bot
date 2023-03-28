@@ -116,7 +116,7 @@ module.exports = {
   once: true,
   execute(client) {
     console.log(`⛅ Weather report event registered !`);
-    const hour = 16;
+    const hour = 15;
     const minute = 0;
     const second = 0;
 
@@ -128,7 +128,7 @@ module.exports = {
       targetTime.setDate(targetTime.getDate() + 1);
     }
 
-    while (targetTime.getDay() === 6 || targetTime.getDay() === 0) {
+    while (targetTime.getDay() === 5 || targetTime.getDay() === 6) {
       targetTime.setDate(targetTime.getDate() + 1);
     }
 
